@@ -1,0 +1,87 @@
+{
+	"name": "beepmycode",
+	"displayName": "BeepMyCode",
+	"description": "Audio alerts for terminal events — hear sounds when commands fail, succeed, or servers start running.",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.108.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [],
+	"main": "./src/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "beepmycode.helloWorld",
+				"title": "Hello World"
+			},
+			{
+				"command": "beepmycode.selectSound",
+				"title": "BeepMyCode: Select Sounds"
+			},
+      {
+  "command": "beepmycode.testSound",
+  "title": "BeepMyCode: Test Sound"
+}
+		],
+		"configuration": {
+  "title": "BeepMyCode",
+  "properties": {
+
+    "beepmycode.errorSound": {
+      "type": "string",
+      "default": "",
+      "description": "Selected error sound file"
+    },
+
+    "beepmycode.successSound": {
+      "type": "string",
+      "default": "",
+      "description": "Selected success sound file"
+    },
+
+    "beepmycode.serverSound": {
+      "type": "string",
+      "default": "",
+      "description": "Selected server sound file"
+    },
+
+    "beepmycode.customErrorPath": {
+      "type": "string",
+      "default": "",
+      "description": "ABSOLUTE path for custom error sound"
+    },
+
+    "beepmycode.customSuccessPath": {
+      "type": "string",
+      "default": "",
+      "description": "ABSOLUTE path for custom success sound"
+    },
+
+    "beepmycode.customServerPath": {
+      "type": "string",
+      "default": "",
+      "description": "ABSOLUTE path for custom server sound"
+    }
+  }
+}
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "vscode-test"
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.10",
+		"@types/node": "22.x",
+		"@types/vscode": "^1.109.0",
+		"@vscode/test-cli": "^0.0.12",
+		"@vscode/test-electron": "^2.5.2",
+		"eslint": "^9.39.3"
+	},
+	"dependencies": {
+		"play-sound": "^1.1.6"
+	}
+}
