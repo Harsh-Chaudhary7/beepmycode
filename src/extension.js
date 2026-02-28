@@ -20,29 +20,28 @@ function playSound(filePath) {
 }
 
 function getSoundPath(type) {
-	const config = vscode.workspace.getConfiguration("beepmycode");
 
-	// Custom path key names
-	const customKey =
-		type === "error"
-			? "customErrorPath"
-			: type === "success"
-				? "customSuccessPath"
-				: "customServerPath";
+  const config = vscode.workspace.getConfiguration("beepmycode");
 
-	const customPath = config.get(customKey);
+  const customKey =
+    type === "error"
+      ? "customErrorPath"
+      : type === "success"
+      ? "customSuccessPath"
+      : "customServerPath";
 
-	// if user provided custom path → use it
-	if (customPath && customPath.trim() !== "") {
-		return customPath;
-	}
+  const customPath = config.get(customKey);
 
-	// else use built-in dropdown sound
-	const file = config.get(`${type}Sound`);
+  // ✅ custom path takes priority
+  if (customPath && customPath.trim() !== "") {
+    return customPath;
+  }
 
-	if (!file) return "";
+  // otherwise use dropdown value
+  const file = config.get(`${type}Sound`);
+  if (!file) return "";
 
-	return path.join(__dirname, "..", "sounds", file);
+  return path.join(__dirname, "..", "sounds", file);
 }
 
 function getAvailableSounds() {

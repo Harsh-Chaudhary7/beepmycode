@@ -3,6 +3,11 @@
 	"displayName": "BeepMyCode",
 	"description": "Audio alerts for terminal events — hear sounds when commands fail, succeed, or servers start running.",
 	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/YOUR_USERNAME/beepmycode"
+	},
+	"publisher": "HarshChaudhary",
 	"engines": {
 		"vscode": "^1.108.0"
 	},
@@ -21,52 +26,73 @@
 				"command": "beepmycode.selectSound",
 				"title": "BeepMyCode: Select Sounds"
 			},
-      {
-  "command": "beepmycode.testSound",
-  "title": "BeepMyCode: Test Sound"
-}
+			{
+				"command": "beepmycode.testSound",
+				"title": "BeepMyCode: Test Sound"
+			}
 		],
 		"configuration": {
-  "title": "BeepMyCode",
-  "properties": {
-
-    "beepmycode.errorSound": {
-      "type": "string",
-      "default": "",
-      "description": "Selected error sound file"
-    },
-
-    "beepmycode.successSound": {
-      "type": "string",
-      "default": "",
-      "description": "Selected success sound file"
-    },
-
-    "beepmycode.serverSound": {
-      "type": "string",
-      "default": "",
-      "description": "Selected server sound file"
-    },
-
-    "beepmycode.customErrorPath": {
-      "type": "string",
-      "default": "",
-      "description": "ABSOLUTE path for custom error sound"
-    },
-
-    "beepmycode.customSuccessPath": {
-      "type": "string",
-      "default": "",
-      "description": "ABSOLUTE path for custom success sound"
-    },
-
-    "beepmycode.customServerPath": {
-      "type": "string",
-      "default": "",
-      "description": "ABSOLUTE path for custom server sound"
-    }
-  }
+			"title": "BeepMyCode",
+			"properties": {
+				"beepmycode.errorSound": {
+					"type": "string",
+					"enum": [
+						"ab_tu_gya_beta.mp3",
+						"baigan.mp3",
+						"fah.mp3",
+						"harley_davidson.mp3",
+						"khatam.mp3",
+						"system_phar_denge.mp3",
+						"technologya.mp3"
+					],
+					"default": "ab_tu_gya_beta.mp3",
+					"description": "Sound for terminal errors"
+				},
+				"beepmycode.customErrorPath": {
+  "type": "string",
+  "default": "",
+  "description": "Custom ABSOLUTE path for error sound (overrides dropdown)"
+},
+				"beepmycode.successSound": {
+					"type": "string",
+					"enum": [
+						"ab_tu_gya_beta.mp3",
+						"baigan.mp3",
+						"fah.mp3",
+						"harley_davidson.mp3",
+						"khatam.mp3",
+						"system_phar_denge.mp3",
+						"technologya.mp3"
+					],
+					"default": "fah.mp3",
+					"description": "Sound for successful commands"
+				},
+				"beepmycode.customSuccessPath": {
+  "type": "string",
+  "default": "",
+  "description": "Custom ABSOLUTE path for success sound (overrides dropdown)"
+},
+				"beepmycode.serverSound": {
+					"type": "string",
+					"enum": [
+						"ab_tu_gya_beta.mp3",
+						"baigan.mp3",
+						"fah.mp3",
+						"harley_davidson.mp3",
+						"khatam.mp3",
+						"system_phar_denge.mp3",
+						"technologya.mp3"
+					],
+					"default": "harley_davidson.mp3",
+					"description": "Sound for server start"
+				},
+				"beepmycode.customServerPath": {
+  "type": "string",
+  "default": "",
+  "description": "Custom ABSOLUTE path for server sound (overrides dropdown)"
 }
+			}
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",
@@ -76,7 +102,7 @@
 	"devDependencies": {
 		"@types/mocha": "^10.0.10",
 		"@types/node": "22.x",
-		"@types/vscode": "^1.109.0",
+		"@types/vscode": "^1.108.0",
 		"@vscode/test-cli": "^0.0.12",
 		"@vscode/test-electron": "^2.5.2",
 		"eslint": "^9.39.3"
