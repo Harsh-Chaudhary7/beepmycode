@@ -64,10 +64,11 @@ function isIgnoredCommand(cmd) {
     "cls",
     "history",
     "exit",
-    "code ."
+    "code .",
+    "git"
   ];
 
-  return ignored.some(c => cmd.trim() === c);
+  return ignored.some(c => cmd.trim().includes(c));
 }
 
 /* =========================
