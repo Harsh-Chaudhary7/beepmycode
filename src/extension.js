@@ -9,14 +9,25 @@ const player = require("play-sound")();
 
 let activeServerCommands = new Set();
 
-function playSound(filePath) {
-	if (!filePath) return;
+function playSound(context, fileName) {
+  const soundPath = vscode.Uri.file(
+    path.join(context.extensionPath, "sounds", fileName)
+  );
 
-	player.play(filePath, (err) => {
-		if (err) {
-			console.log("Sound error:", err);
-		}
-	});
+  const panel = vscode.window.createWebviewPanel(
+    "soundPlayer",
+    "Sound",
+    { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
+    { enableScripts: true }
+  );
+
+  panel.webview.html = `
+    <audio autoplay>
+      <source src="${panel.webview.asWebviewUri(soundPath)}" type="audio/mp3">
+    </audio>
+  `;
+
+  setTimeout(() => panel.dispose(), 500);
 }
 
 function getSoundPath(type) {

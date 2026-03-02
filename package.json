@@ -2,7 +2,7 @@
 	"name": "beepmycode",
 	"displayName": "BeepMyCode",
 	"description": "Audio alerts for terminal events — hear sounds when commands fail, succeed, or servers start running.",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/harsh-chaudhary7/beepmycode"
