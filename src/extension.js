@@ -1,33 +1,50 @@
 const vscode = require("vscode");
 const fs = require("fs");
 const path = require("path");
-const player = require("play-sound")();
+const player = require("play-sound")({});
+const { exec } = require("child_process");
+const os = require("os");
 
-/* =========================
-   HELPERS
-========================= */
+function playSound(context, soundFullPath) {
 
-let activeServerCommands = new Set();
+  if (!soundFullPath || typeof soundFullPath !== "string") {
+    console.log("Invalid sound path:", soundFullPath);
+    return;
+  }
 
-function playSound(context, fileName) {
-  const soundPath = vscode.Uri.file(
-    path.join(context.extensionPath, "sounds", fileName)
-  );
+  const platform = os.platform();
 
-  const panel = vscode.window.createWebviewPanel(
-    "soundPlayer",
-    "Sound",
-    { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
-    { enableScripts: true }
-  );
+  // ===== MAC =====
+  if (platform === "darwin") {
+    exec(`afplay "${soundFullPath}"`);
+    return;
+  }
 
-  panel.webview.html = `
-    <audio autoplay>
-      <source src="${panel.webview.asWebviewUri(soundPath)}" type="audio/mp3">
-    </audio>
-  `;
+  // ===== WINDOWS =====
+  if (platform === "win32") {
 
-  setTimeout(() => panel.dispose(), 500);
+    // Windows prefers WAV (important)
+    const wavPath = soundFullPath.replace(".mp3", ".wav");
+
+    const escapedPath = wavPath.replace(/\\/g, "\\\\");
+
+    const cmd =
+      `powershell -NoProfile -ExecutionPolicy Bypass -Command ` +
+      `"Add-Type -AssemblyName presentationCore; ` +
+      `$player = New-Object System.Media.SoundPlayer('${escapedPath}'); ` +
+      `$player.PlaySync();"`; 
+
+    exec(cmd, (err) => {
+      if (err) {
+        console.log("Windows sound error:", err);
+      }
+    });
+
+    return;
+  }
+
+  // ===== LINUX =====
+  exec(`mpg123 "${soundFullPath}"`);
 }
 
 function getSoundPath(type) {
@@ -157,7 +174,7 @@ const startExec = vscode.window.onDidStartTerminalShellExecution(
     if (isIgnoredCommand(cmd)) return;
 
     if (isServerCommand(cmd)) {
-      playSound(getSoundPath("server"));
+      playSound(context, getSoundPath("server"));
     }
   }
 );
@@ -181,9 +198,9 @@ const endExec = vscode.window.onDidEndTerminalShellExecution(
     }
 
     if (exitCode === 0) {
-      playSound(getSoundPath("success"));
+      playSound(context, getSoundPath("success"));
     } else {
-      playSound(getSoundPath("error"));
+      playSound(context, getSoundPath("error"));
     }
   }
 );
@@ -212,7 +229,7 @@ context.subscriptions.push(endExec);
 				return;
 			}
 
-			playSound(soundPath);
+			playSound(context, soundPath);
 
 			vscode.window.showInformationMessage(`Playing ${type} sound 🔔`);
 		},
